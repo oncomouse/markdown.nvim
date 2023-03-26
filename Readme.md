@@ -68,7 +68,7 @@ vim.fn["lexima#add_rule"]({
     at = [[^\s*\([0-9]\+\)\..*\%#$]],
     filetype = "markdown",
     with_submatch = true,
-    input = [[<CR>\1<Home><C-O><C-A><End>i. ]],
+    input = [[<CR>\1. <Home><C-O>:exec "normal! \<c-a\>" "$"<CR>]],
     except = [[^\s*\([0-9]\)\. \%#$]],
 })
 vim.fn["lexima#add_rule"]({
