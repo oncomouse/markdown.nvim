@@ -8,6 +8,88 @@ This plugin combines a few features from other plugins while removing features I
 1. Smart detab: if `<C-d>` is pressed until all that remains at the front of the line is Markdown syntax (lists or block quotes), those will also be removed.
 1. All of the motion commands from [vim-markdown](https://github.com/preservim/vim-markdown).
 
+## Autopairs Support for markdown.nvim
+
+This plugin does not insert list or blockquote characters on newline. Lists can be managed using [autolist.nvim](https://github.com/gaoDean/autolist.nvim); block quotes might be extending using any of the available autopairs plugins.
+
+I use [lexima.vim](https://github.com/cohama/lexima.vim) for autopairs, and the following rules supplement this plugin:
+
+```lua
+-- Blockquotes:
+vim.fn["lexima#add_rule"]({
+    char = "<BS>",
+    input = "<BS><BS>",
+    at = [[^> \%#]],
+    filetype = "markdown",
+})
+vim.fn["lexima#add_rule"]({
+    char = "<CR>",
+    at = [[^> .\+\%#$]],
+    input = "<CR>> ",
+    filetype = "markdown",
+})
+vim.fn["lexima#add_rule"]({
+    char = "<CR>",
+    at = [[^> \%#$]],
+    input = "<BS><BS><CR>",
+    filetype = "markdown",
+})
+vim.fn["lexima#add_rule"]({
+    char = ">",
+    input = "> ",
+    at = [[^\%#]],
+    filetype = "markdown",
+})
+-- Unordered Lists:
+vim.fn["lexima#add_rule"]({
+    char = "<CR>",
+    at = [[^\s*\([*-]\).*\%#$]],
+    filetype = "markdown",
+    with_submatch = true,
+    input = [[<CR>\1 ]],
+    except = [[^\s*\([*-]\) \%#$]],
+})
+vim.fn["lexima#add_rule"]({
+    char = "<CR>",
+    at = [[^\s*[*-] \%#$]],
+    filetype = "markdown",
+    input = "<Home><C-O>Di<CR>",
+})
+vim.fn["lexima#add_rule"]({
+    char = "<BS>",
+    at = [[^\(\s*\)[*-] \%#$]],
+    filetype = "markdown",
+    with_submatch = true,
+    input = [[<Home><C-O>Di\1]],
+})
+-- Ordered Lists (including automatic increment):
+vim.fn["lexima#add_rule"]({
+    char = "<CR>",
+    at = [[^\s*\([0-9]\+\)\..*\%#$]],
+    filetype = "markdown",
+    with_submatch = true,
+    input = [[<CR>\1<Home><C-O><C-A><End>i. ]],
+    except = [[^\s*\([0-9]\)\. \%#$]],
+})
+vim.fn["lexima#add_rule"]({
+    char = "<CR>",
+    at = [[^\s*[0-9]\+\. \%#$]],
+    filetype = "markdown",
+    input = "<Home><C-O>Di<CR>",
+})
+vim.fn["lexima#add_rule"]({
+    char = "<BS>",
+    at = [[^\(\s*\)[0-9]\+\. \%#$]],
+    filetype = "markdown",
+    with_submatch = true,
+    input = [[<Home><C-O>Di\1]],
+})
+```
+
 ## Todo
 
 1. [ ] Binding to switch list type (from ordered to unordered).
+1. [ ] Binding to recalculate numbering for ordered lists
+2. [ ] Detab properly renumbers ordered lists
+3. [ ] Tab binding to properly renumber ordered lists
+3. [X] Increment numbers on new ordered list
