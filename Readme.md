@@ -90,6 +90,6 @@ vim.fn["lexima#add_rule"]({
 
 1. [ ] Binding to switch list type (from ordered to unordered).
 1. [ ] Binding to recalculate numbering for ordered lists
-2. [ ] Detab properly renumbers ordered lists
-3. [ ] Tab binding to properly renumber ordered lists
+2. [X] Detab properly renumbers ordered lists
+3. [X] Tab binding to properly renumber ordered lists
 3. [X] Increment numbers on new ordered list
