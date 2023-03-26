@@ -9,7 +9,7 @@ function M.insert_newline(above)
 	-- Lists, ordered and unordered
 	local space, number = line:match("^(%s*)([0-9]+)[.]")
 	if space then
-		return string.format("%s%d<Home><C-O><C-A><End>. ", action, number)
+		return string.format("%s%d<Home><Esc><C-A>:lua MarkdownNvim.renumber_ordered_list()<CR>A. ", action, number)
 	end
 	space, number = line:match("^(%s*)([*-]) ")
 	if space then

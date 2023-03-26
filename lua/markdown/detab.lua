@@ -38,7 +38,7 @@ function M.detab()
 		if number then
 			return string.format("<C-D><Esc>_ce%d.<Esc>A", tonumber(number) + 1)
 		end
-		return "<C-D><Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<cr>A"
+		return "<C-D><Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>A"
 	end
 	return "<c-d>"
 end
@@ -46,7 +46,7 @@ end
 function M.tab()
 	local line = vim.api.nvim_get_current_line()
 	if line:match("^%s*%d+[.] ") then
-		return "<c-t><Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()A"
+		return "<c-t><Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>A"
 	end
 	return "<c-t>"
 end
