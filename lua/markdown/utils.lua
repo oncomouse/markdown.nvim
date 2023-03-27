@@ -20,4 +20,8 @@ function M.indent_step(bufnr)
 	return vim.api.nvim_buf_get_option(bufnr or 0, "expandtab") and vim.api.nvim_buf_get_option(bufnr or 0, "softtabstop") or 1
 end
 
+function M.get_current_row()
+	return vim.api.nvim_win_get_cursor(0)[1]
+end
+
 return M

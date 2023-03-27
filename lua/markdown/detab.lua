@@ -29,7 +29,7 @@ function M.detab(normal_mode)
 	end
 	local operation = normal_mode and "<<" or "<C-D>"
 	-- Check if we need to change number for an ordered list:
-	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+	local row = require("markdown.utils").get_current_row()
 	local spaces = line:match("^(%s*)%d+[.] ")
 	if row > 1 and spaces then
 		local up_spaces, number = string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^(%s*)(%d+)[.] ")
