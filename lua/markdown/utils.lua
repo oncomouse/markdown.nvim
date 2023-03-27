@@ -16,4 +16,8 @@ function M.set_binding(binding)
 	vim.keymap.set(binding[1], binding[4], binding[2], { buffer = true })
 end
 
+function M.indent_step(bufnr)
+	return vim.api.nvim_buf_get_option(bufnr or 0, "expandtab") and vim.api.nvim_buf_get_option(bufnr or 0, "softtabstop") or 1
+end
+
 return M
