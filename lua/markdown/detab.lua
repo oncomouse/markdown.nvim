@@ -32,10 +32,11 @@ function M.detab(normal_mode)
 	local operation = normal_mode and "<<" or "<C-D>"
 	-- Check if we need to change number for an ordered list:
 	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-	local number = nil
-	if row > 1 and line:match("^%s*%d+[.] ") then
-		number = string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^%s*(%d+)[.] ")
-		if number then
+	local spaces = line:match("^(%s*)%d+[.] ")
+	if row > 1 and spaces then
+		local up_spaces, number = string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^(%s*)(%d+)[.] ")
+		local indent_step = vim.opt.expandtab:get() and vim.opt.softtabstop:get() or 1
+		if number and #up_spaces == #spaces - indent_step then
 			return string.format("%s<Esc>_ce%d.<Esc>%s", operation, tonumber(number) + 1, normal_mode and "" or "A")
 		end
 		return string.format(
@@ -47,12 +48,13 @@ function M.detab(normal_mode)
 	return operation
 end
 
-function M.tab()
+function M.tab(normal_mode)
 	local line = vim.api.nvim_get_current_line()
+	local operation  = normal_mode and ">>" or "<C-T>"
 	if line:match("^%s*%d+[.] ") then
-		return "<c-t><Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>A"
+		return string.format("%s<Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>%s", operation, normal_mode and "" or "A")
 	end
-	return "<c-t>"
+	return operation
 end
 
 return require("markdown.utils").add_key_bindings(M, {
@@ -65,6 +67,15 @@ return require("markdown.utils").add_key_bindings(M, {
 			return M.detab(true)
 		end,
 		"<<",
+		{ expr = true },
+	},
+	{
+		"n",
+		"<Plug>(markdown-nvim-tab)",
+		function()
+			return M.tab(true)
+		end,
+		">>",
 		{ expr = true },
 	},
 })
