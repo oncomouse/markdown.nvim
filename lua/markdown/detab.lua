@@ -16,8 +16,6 @@ local function match_vimregex(line, regex)
 	return match
 end
 
-function M.renumber_ordered_list() end
-
 function M.detab(normal_mode)
 	local line = vim.api.nvim_get_current_line()
 	for _, r in pairs(detab_regexes) do
