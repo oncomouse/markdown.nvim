@@ -93,3 +93,4 @@ vim.fn["lexima#add_rule"]({
 2. [X] Detab properly renumbers ordered lists
 3. [X] Tab binding to properly renumber ordered lists
 3. [X] Increment numbers on new ordered list
+4. [ ] Tab/detab with operator-pending support for renumbering
