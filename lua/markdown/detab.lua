@@ -16,31 +16,35 @@ local function match_vimregex(line, regex)
 	return match
 end
 
-function M.renumber_ordered_list()
+function M.renumber_ordered_list() end
 
-end
-
-function M.detab()
+function M.detab(normal_mode)
 	local line = vim.api.nvim_get_current_line()
 	for _, r in pairs(detab_regexes) do
 		local match = match_vimregex(line, r)
 		if match then
 			local savepos = vim.fn.winsaveview().col
-			local restore_input = (savepos == #line) and "$a" or savepos - #match .. "li"
-			return '<Esc>0"_' .. #match .. "dl" .. restore_input
+			local restore_input = normal_mode and "" or ((savepos == #line) and "$a" or savepos - #match .. "li")
+			local leave_insert = normal_mode and "" or "<Esc>"
+			return string.format([[%s0"_%ddl%s]], leave_insert, #match, restore_input)
 		end
 	end
+	local operation = normal_mode and "<<" or "<C-D>"
 	-- Check if we need to change number for an ordered list:
 	local row, _ = unpack(vim.api.nvim_win_get_cursor(0))
 	local number = nil
 	if row > 1 and line:match("^%s*%d+[.] ") then
 		number = string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^%s*(%d+)[.] ")
 		if number then
-			return string.format("<C-D><Esc>_ce%d.<Esc>A", tonumber(number) + 1)
+			return string.format("%s<Esc>_ce%d.<Esc>%s", operation, tonumber(number) + 1, normal_mode and "" or "A")
 		end
-		return "<C-D><Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>A"
+		return string.format(
+			"%s<Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>%s",
+			operation,
+			normal_mode and "<Esc>" or "A"
+		)
 	end
-	return "<c-d>"
+	return operation
 end
 
 function M.tab()
@@ -54,4 +58,13 @@ end
 return require("markdown.utils").add_key_bindings(M, {
 	{ "i", "<Plug>(markdown-nvim-detab)", M.detab, "<C-d>", { expr = true } },
 	{ "i", "<Plug>(markdown-nvim-tab)", M.tab, "<C-t>", { expr = true } },
+	{
+		"n",
+		"<Plug>(markdown-nvim-detab)",
+		function()
+			return M.detab(true)
+		end,
+		"<<",
+		{ expr = true },
+	},
 })
