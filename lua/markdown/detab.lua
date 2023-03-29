@@ -35,7 +35,7 @@ function M.detab(normal_mode)
 		local up_spaces, number = string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^(%s*)(%d+)[.] ")
 		local indent_step = require("markdown.utils").indent_step()
 		if number and #up_spaces == #spaces - indent_step then
-			return string.format("%s<Esc>_ce%d.<Esc>%s", operation, tonumber(number) + 1, normal_mode and "" or "A")
+			return string.format("%s<Esc>_ce%d.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>%s", operation, tonumber(number) + 1, normal_mode and "" or "A")
 		end
 		return string.format(
 			"%s<Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>%s",
