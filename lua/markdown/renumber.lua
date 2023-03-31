@@ -8,7 +8,9 @@ function detect_block(row)
 			break
 		end
 		l = l[1]
-		if #l == 0 then break end
+		if #l == 0 then
+			break
+		end
 		i = i - 1
 	end
 	local start = i + 1
@@ -19,7 +21,9 @@ function detect_block(row)
 			break
 		end
 		l = l[1]
-		if #l == 0 then break end
+		if #l == 0 then
+			break
+		end
 		i = i + 1
 	end
 	local stop = i - 1
@@ -47,4 +51,6 @@ function M.renumber_ordered_list()
 	vim.api.nvim_buf_set_lines(0, start, stop + 1, false, output)
 end
 
-return require("markdown.utils").add_key_bindings(M, {})
+return require("markdown.utils").add_key_bindings(M, {
+	{ "n", "<Plug>(markdown-nvim-renumber)", "<cmd>lua MarkdownNvim.renumber_ordered_list()<CR>", "<leader>rn" },
+})
