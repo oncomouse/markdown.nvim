@@ -35,11 +35,12 @@ function M.detab(normal_mode)
 		local up_spaces, number = string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^(%s*)(%d+)[.] ")
 		local indent_step = require("markdown.utils").indent_step()
 		if number and #up_spaces == #spaces - indent_step then
-			return string.format("%s<Esc>_ce%d.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>%s", operation, tonumber(number) + 1, normal_mode and "" or "A")
+			return string.format("%s<Esc>_ce%d.<Esc>%s%s", operation, tonumber(number) + 1, require("markdown.renumber").trigger_renumber, normal_mode and "" or "A")
 		end
 		return string.format(
-			"%s<Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>%s",
+			"%s<Esc>_ce1.<Esc>%s%s",
 			operation,
+			require("markdown.renumber").trigger_renumber,
 			normal_mode and "<Esc>" or "A"
 		)
 	end
@@ -50,7 +51,7 @@ function M.tab(normal_mode)
 	local line = vim.api.nvim_get_current_line()
 	local operation  = normal_mode and ">>" or "<C-T>"
 	if line:match("^%s*%d+[.] ") then
-		return string.format("%s<Esc>_ce1.<Esc>:lua MarkdownNvim.renumber_ordered_list()<CR>%s", operation, normal_mode and "" or "A")
+		return string.format("%s<Esc>_ce1.<Esc>%s%s", operation, require("markdown.renumber").trigger_renumber, normal_mode and "" or "A")
 	end
 	return operation
 end
