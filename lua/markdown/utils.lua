@@ -21,7 +21,37 @@ function M.indent_step(bufnr)
 end
 
 function M.get_current_row()
-	return vim.api.nvim_win_get_cursor(0)[1]
+	return vim.api.nvim_win_get_cursor(0)[1] - 1
+end
+
+function M.detect_block(row)
+	local i = row - 2
+	while i >= 0 do
+		local l = vim.api.nvim_buf_get_lines(0, i, i + 1, false)
+		if #l == 0 then
+			break
+		end
+		l = l[1]
+		if #l == 0 then
+			break
+		end
+		i = i - 1
+	end
+	local start = i + 1
+	i = row + 1
+	while i >= 1 do
+		local l = vim.api.nvim_buf_get_lines(0, i, i + 1, false)
+		if #l == 0 then
+			break
+		end
+		l = l[1]
+		if #l == 0 then
+			break
+		end
+		i = i + 1
+	end
+	local stop = i - 1
+	return start, stop
 end
 
 return M
