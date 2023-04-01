@@ -32,7 +32,7 @@ function M.switch()
 	local lines = vim.api.nvim_buf_get_lines(0, start, stop + 1, false)
 	local output = {}
 	for _, line in ipairs(lines) do
-		return switch_line(line)
+		table.insert(output, switch_line(line))
 	end
 	vim.api.nvim_buf_set_lines(0, start, stop + 1, false, output)
 	require("markdown.renumber").renumber_ordered_list()
