@@ -24,5 +24,5 @@ end
 M.trigger_renumber = ":lua MarkdownNvim.renumber_ordered_list()<CR>"
 
 return require("markdown.utils").add_key_bindings(M, {
-	{ "n", "<Plug>(markdown-nvim-renumber)", "<cmd>lua MarkdownNvim.renumber_ordered_list()<CR>", "<leader>rn" },
+	{ "n", "<Plug>(markdown-nvim-renumber)", "<cmd>lua MarkdownNvim.renumber_ordered_list()<CR>", "<leader>mn" },
 })
