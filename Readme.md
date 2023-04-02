@@ -96,3 +96,4 @@ vim.fn["lexima#add_rule"]({
 6. [X] Tab support for renumbering in normal mode (`>>`)
 7. [ ] Tab/detab with operator-pending support (`>`) for renumbering
 8. [ ] Operator-pending support for switching list types
+9. [ ] Delete module operator-pending support
