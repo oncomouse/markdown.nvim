@@ -9,7 +9,7 @@ function M.insert_newline(above)
 	-- Lists, ordered and unordered
 	local space, number = line:match("^(%s*)(%d+)[.] ")
 	if space then
-		return string.format("%s%d<Home><Esc><C-A>A. <Esc>%sA", action, number, require("markdown.renumber").trigger_renumber)
+		return string.format("%s%d<Home><Esc><C-A>A. <Esc>%sA", action, number, require("markdown.renumber").trigger)
 	end
 	space, number = line:match("^(%s*)([*-]) ")
 	if space then

@@ -7,6 +7,7 @@ local modules = {
 	"markdown.movements",
 	"markdown.renumber",
 	"markdown.switch",
+	"markdown.tab",
 }
 
 for _, module in ipairs(modules) do
