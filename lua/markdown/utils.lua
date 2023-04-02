@@ -4,7 +4,7 @@ function M.add_key_bindings(module, keys)
 	return setmetatable(module, {
 		__index = {
 			maps = keys,
-		}
+		},
 	})
 end
 
@@ -17,7 +17,9 @@ function M.set_binding(binding)
 end
 
 function M.indent_step(bufnr)
-	return vim.api.nvim_buf_get_option(bufnr or 0, "expandtab") and vim.api.nvim_buf_get_option(bufnr or 0, "softtabstop") or 1
+	return vim.api.nvim_buf_get_option(bufnr or 0, "expandtab")
+			and vim.api.nvim_buf_get_option(bufnr or 0, "softtabstop")
+		or 1
 end
 
 function M.get_current_row()
@@ -52,6 +54,37 @@ function M.detect_block(row)
 	end
 	local stop = i - 1
 	return start, stop
+end
+
+-- Wrapper for operatorfunc functions:
+function M.opfunc(fn)
+	if type(fn) == "function" then
+		return function(mode)
+			if mode == nil then
+				vim.g.markdown_nvim_opfunc = fn
+				vim.opt.operatorfunc = "v:lua.require'markdown.nvim.utils'.opfunc" -- Can't have parentheses
+				return "g@"
+			end
+		end
+	end
+	local mode = fn
+	-- This code is from mini.nvim's comment module
+	local mark_left, mark_right = "[", "]"
+	if mode == "visual" then
+		mark_left, mark_right = "<", ">"
+	end
+
+	local line_left, col_left = unpack(vim.api.nvim_buf_get_mark(0, mark_left))
+	local line_right, col_right = unpack(vim.api.nvim_buf_get_mark(0, mark_right))
+
+	-- Do nothing if "left" mark is not on the left (earlier in text) of "right"
+	-- mark (indicating that there is nothing to do, like in comment textobject).
+	if (line_left > line_right) or (line_left == line_right and col_left > col_right) then
+		return
+	end
+	--- End code from mini.nvim
+
+	return vim.g.markdown_nvim_opfunc(line_left, line_right)
 end
 
 return M
