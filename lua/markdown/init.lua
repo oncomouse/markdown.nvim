@@ -1,10 +1,11 @@
 local M = {}
 
 local modules = {
-	"markdown.join",
+	"markdown.delete",
 	"markdown.detab",
-	"markdown.newline",
+	"markdown.join",
 	"markdown.movements",
+	"markdown.newline",
 	"markdown.renumber",
 	"markdown.switch",
 	"markdown.tab",
