@@ -9,6 +9,11 @@ function M.tab(normal_mode)
 	return operation
 end
 
+M.tab_opfunc = function(mode)
+	local target = mode == "visual" and "'<,'>" or "'[,']"
+	vim.cmd(string.format([[execute "%snormal! >>\<Plug>(markdown-nvim-renumber)"]], target))
+end
+
 return require("markdown.utils").add_key_bindings(M, {
 	{ "i", "<Plug>(markdown-nvim-tab)", M.tab, "<C-t>", { expr = true } },
 	{
@@ -19,5 +24,11 @@ return require("markdown.utils").add_key_bindings(M, {
 		end,
 		">>",
 		{ expr = true },
+	},
+	{
+		"n",
+		"<Plug>(markdown-nvim-tab-opfunc)",
+		"<cmd>set operatorfunc=v:lua.MarkdownNvim.tab_opfunc<CR>g@",
+		">",
 	},
 })

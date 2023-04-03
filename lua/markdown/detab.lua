@@ -47,6 +47,12 @@ function M.detab(normal_mode)
 	return operation
 end
 
+M.detab_opfunc = function(mode)
+	local target = mode == "visual" and "'<,'>" or "'[,']"
+	vim.cmd(string.format([[execute "%snormal! <<\<Plug>(markdown-nvim-renumber)"]], target))
+end
+
+
 return require("markdown.utils").add_key_bindings(M, {
 	{ "i", "<Plug>(markdown-nvim-detab)", M.detab, "<C-d>", { expr = true } },
 	{
@@ -57,5 +63,11 @@ return require("markdown.utils").add_key_bindings(M, {
 		end,
 		"<<",
 		{ expr = true },
+	},
+	{
+		"n",
+		"<Plug>(markdown-nvim-detab-opfunc)",
+		"<cmd>set operatorfunc=v:lua.MarkdownNvim.detab_opfunc<CR>g@",
+		"<",
 	},
 })
