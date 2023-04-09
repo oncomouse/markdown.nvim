@@ -22,11 +22,17 @@ function M.delete_opfunc(mode)
 			line = line:sub(0, col_left) .. line:sub(col_right + 2, #line)
 			table.insert(output, line)
 		else
-			local start_line = vim.api.nvim_buf_get_lines(0, row_left, row_left + 1, false)[1]
-			start_line = start_line:sub(1, col_left)
-			local stop_line = vim.api.nvim_buf_get_lines(0, row_right, row_right + 1, false)[1]
-			-- TODO: set register for multiline deletions
-			stop_line = stop_line:sub(col_right + 2, #stop_line)
+			local deleted = vim.api.nvim_buf_get_lines(0, row_left, row_right + 1, false)
+
+			-- New contents:
+			local start_line = deleted[1]:sub(1, col_left)
+			local stop_line = deleted[#deleted]:sub(col_right + 2, #deleted[#deleted])
+
+			-- Register contents:
+			deleted[1] = deleted[1]:sub(col_left, #deleted[1])
+			deleted[#deleted] = deleted[#deleted]:sub(1, col_right + 1)
+			vim.fn.setreg(register, table.concat(deleted, "\n"))
+
 			table.insert(output, start_line)
 			table.insert(output, stop_line)
 		end
