@@ -15,10 +15,8 @@ for _, module in ipairs(modules) do
 	M = vim.tbl_extend("force", M, require(module))
 end
 
-local run
-
 function M.setup()
-	if run then return end
+	if vim.b.markdown_nvim_loaded then return end
 
 	-- Create <Plug> bindings for each module
 	M.maps = {}
@@ -29,7 +27,7 @@ function M.setup()
 		end
 	end
 
-	run = true
+	vim.b.markdown_nvim_loaded = true
 end
 
 --selene: allow(unused_variable, unscoped_variables)
