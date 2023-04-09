@@ -18,12 +18,14 @@ function M.delete_opfunc(mode)
 		local output = {}
 		if row_left == row_right then
 			local line = vim.api.nvim_buf_get_lines(0, row_left, row_left + 1, false)[1]
+			vim.fn.setreg(register, line:sub(col_left, col_right + 1))
 			line = line:sub(0, col_left) .. line:sub(col_right + 2, #line)
 			table.insert(output, line)
 		else
 			local start_line = vim.api.nvim_buf_get_lines(0, row_left, row_left + 1, false)[1]
 			start_line = start_line:sub(1, col_left)
 			local stop_line = vim.api.nvim_buf_get_lines(0, row_right, row_right + 1, false)[1]
+			-- TODO: set register for multiline deletions
 			stop_line = stop_line:sub(col_right + 2, #stop_line)
 			table.insert(output, start_line)
 			table.insert(output, stop_line)
