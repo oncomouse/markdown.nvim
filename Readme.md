@@ -12,7 +12,8 @@ This plugin combines a few features from other plugins while removing features I
 4. All of the motion commands from [vim-markdown](https://github.com/preservim/vim-markdown).
 5. Switch list type:
     * In insert mode, `<C-Z>` will switch list type for the current line
-    * In normal mode, `<leader>ms` will switch list type for the current list
+    * In normal mode, `<leader>mss` will switch list type for the current list
+        * `<leader>ms` will use `operatorfunc` to switch list type for a given motion
 6. Renumber:
     * In normal mode, `<leader>mn` will renumber an ordered list
 
