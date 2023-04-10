@@ -40,6 +40,9 @@ function M.detect_block(row)
 		i = i - 1
 	end
 	local start = i + 1
+	if start < 0 then
+		start = 0
+	end
 	i = row + 1
 	while i >= 1 do
 		local l = vim.api.nvim_buf_get_lines(0, i, i + 1, false)
