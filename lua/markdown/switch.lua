@@ -42,9 +42,9 @@ function M.switch()
 	switch_lines(start, stop)
 end
 
-function M.switch_opfunc()
-	local start, _ = unpack(vim.api.nvim_buf_get_mark(0, "["))
-	local stop, _ = unpack(vim.api.nvim_buf_get_mark(0, "]"))
+function M.switch_opfunc(mode)
+	local start, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and "<" or "["))
+	local stop, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and ">" or "]"))
 	if start == 0 or stop == 0 then return end
 	start = start - 1
 	stop = stop - 1
@@ -53,6 +53,7 @@ end
 
 return require("markdown.utils").add_key_bindings(M, {
 	{ "n", "<Plug>(markdown-nvim-switch)", "<cmd>lua MarkdownNvim.switch()<CR>", "<leader>mss" },
+	{ "v", "<Plug>(markdown-nvim-switch-visual)", ":<c-u>lua MarkdownNvim.switch_opfunc('visual')<CR>", "<leader>ms" },
 	{ "n", "<Plug>(markdown-nvim-switch_opfunc)", "<cmd>set opfunc=v:lua.MarkdownNvim.switch_opfunc<CR>g@", "<leader>ms" },
 	{ "i", "<Plug>(markdown-nvim-switch)", "<cmd>lua MarkdownNvim.switch_line()<CR>", "<C-Z>" },
 })
