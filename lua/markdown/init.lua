@@ -1,14 +1,11 @@
 local M = {}
 
 local modules = {
-	"markdown.delete",
 	"markdown.detab",
 	"markdown.join",
 	"markdown.movements",
-	"markdown.newline",
 	"markdown.renumber",
 	"markdown.switch",
-	"markdown.tab",
 }
 
 for _, module in ipairs(modules) do
@@ -17,6 +14,13 @@ end
 
 function M.setup()
 	if vim.b.markdown_nvim_loaded then return end
+
+	vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
+		buffer = 0,
+		callback = function()
+			require("markdown.renumber").renumber_ordered_list()
+		end
+	})
 
 	-- Create <Plug> bindings for each module
 	M.maps = {}
