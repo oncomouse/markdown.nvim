@@ -4,6 +4,7 @@ local modules = {
 	"markdown.detab",
 	"markdown.join",
 	"markdown.movements",
+	"markdown.newline",
 	"markdown.renumber",
 	"markdown.switch",
 }
