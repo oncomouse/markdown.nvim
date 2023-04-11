@@ -2,7 +2,10 @@ local M = {}
 
 function M.renumber_ordered_list()
 	local row = require("markdown.utils").get_current_row()
-	local start, stop = require("markdown.utils").detect_block(row)
+	local start, stop = unpack(vim.b.markdown_nvim_current_block)
+	if start == -1 or stop == -1 then
+		start, stop = require("markdown.utils").detect_block(row)
+	end
 	local lines = vim.api.nvim_buf_get_lines(0, start, stop + 1, false)
 	local levels = {}
 	local output = {}

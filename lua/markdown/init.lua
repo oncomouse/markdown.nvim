@@ -13,13 +13,34 @@ for _, module in ipairs(modules) do
 end
 
 function M.setup()
-	if vim.b.markdown_nvim_loaded then return end
+	if vim.b.markdown_nvim_loaded then
+		return
+	end
+
+
+	local augroup = vim.api.nvim_create_augroup("markdown.nvim-augroup", {})
+
+	-- Cache the current block, in case that calculation is slow:
+	vim.b.markdown_nvim_current_block = { -1, -1 }
+	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+		buffer = 0,
+		group = augroup,
+		callback = function()
+			local row = require("markdown.utils").get_current_row()
+			local start, stop = require("markdown.utils").detect_block(row)
+			vim.b.markdown_nvim_current_block = {
+				start,
+				stop,
+			}
+		end,
+	})
 
 	vim.api.nvim_create_autocmd({ "TextChanged", "TextChangedI" }, {
 		buffer = 0,
+		group = augroup,
 		callback = function()
 			require("markdown.renumber").renumber_ordered_list()
-		end
+		end,
 	})
 
 	-- Create <Plug> bindings for each module
