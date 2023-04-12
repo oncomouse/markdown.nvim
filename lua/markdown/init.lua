@@ -23,11 +23,14 @@ function M.setup()
 
 	-- Cache the current block, in case that calculation is slow:
 	vim.b.markdown_nvim_current_block = { -1, -1 }
+	vim.b.markdown_nvim_current_row = -1
 	vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
 		buffer = 0,
 		group = augroup,
 		callback = function()
 			local row = require("markdown.utils").get_current_row()
+			if vim.b.markdown_nvim_current_row == row then return end
+			vim.b.markdown_nvim_current_row = row
 			local start, stop = require("markdown.utils").detect_block(row)
 			vim.b.markdown_nvim_current_block = {
 				start,
