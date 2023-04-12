@@ -63,7 +63,7 @@ end
 
 function M.join(no_indent)
 	local linenr = vim.fn.line(".")
-	local end_linenr = linenr + (vim.v.count == 0 and 1 or vim.v.count)
+	local end_linenr = linenr + vim.v.count1
 	join_lines(linenr, end_linenr, no_indent)
 end
 
