@@ -9,15 +9,26 @@ local modules = {
 	"markdown.switch",
 }
 
-for _, module in ipairs(modules) do
-	M = vim.tbl_extend("force", M, require(module))
-end
+M.maps = {}
 
 function M.setup()
+	-- Create <Plug> bindings for each module
+	if #M.maps == 0 then
+		for _, module in ipairs(modules) do
+			M = vim.tbl_extend("force", M, require(module))
+		end
+
+		for _, module in ipairs(modules) do
+			for _, map in ipairs(require(module).maps) do
+				table.insert(M.maps, map)
+				require("markdown.utils").set_plug_binding(map)
+			end
+		end
+	end
+
 	if vim.b.markdown_nvim_loaded then
 		return
 	end
-
 
 	local augroup = vim.api.nvim_create_augroup("markdown.nvim-augroup", {})
 
@@ -47,14 +58,13 @@ function M.setup()
 		end,
 	})
 
-	-- Create <Plug> bindings for each module
-	M.maps = {}
-	for _, module in ipairs(modules) do
-		for _, map in ipairs(require(module).maps) do
-			table.insert(M.maps, map)
-			require("markdown.utils").set_plug_binding(map)
+	-- If we are setting default mappings, set them here:
+	if vim.g.markdown_nvim_do_not_set_default_maps ~= 1 then
+		for _,map in pairs(require("markdown").maps) do
+			require("markdown.utils").set_binding(map)
 		end
 	end
+	-- If bindings aren't set, <Plug> bindings for all functionality are still defined by .setup()
 
 	vim.b.markdown_nvim_loaded = true
 end
