@@ -67,47 +67,15 @@ function M.join(no_indent)
 	join_lines(linenr, end_linenr, no_indent)
 end
 
-function M.join_opfunc(mode)
-	-- Handle J vs gJ:
-	local function do_opfunc(m)
-		vim.b.dotfiles_markdown_join_no_indent = m
-		vim.opt.operatorfunc = "v:lua.MarkdownNvim.join_opfunc" -- Can't have parentheses
-		return "g@"
-	end
-	if type(mode) == "nil" then
-		return do_opfunc(false)
-	end
-	if type(mode) == "boolean" then
-		return function()
-			return do_opfunc(mode)
-		end
-	end
-
-	-- Read whether we are running J or gJ:
-	local no_indent = vim.b.dotfiles_markdown_join_no_indent
-	vim.b.dotfiles_markdown_join_no_indent = nil
-
-	-- This code is from mini.nvim's comment module
-	local mark_left, mark_right = "[", "]"
-	if mode == "visual" then
-		mark_left, mark_right = "<", ">"
-	end
-
-	local line_left, col_left = unpack(vim.api.nvim_buf_get_mark(0, mark_left))
-	local line_right, col_right = unpack(vim.api.nvim_buf_get_mark(0, mark_right))
-
-	-- Do nothing if "left" mark is not on the left (earlier in text) of "right"
-	-- mark (indicating that there is nothing to do, like in comment textobject).
-	if (line_left > line_right) or (line_left == line_right and col_left > col_right) then
-		return
-	end
-	--- End code from mini.nvim
+function M.join_visual(no_indent)
+	local line_left, _ = unpack(vim.api.nvim_buf_get_mark(0, "<"))
+	local line_right, _ = unpack(vim.api.nvim_buf_get_mark(0, ">"))
 	join_lines(line_left, line_right, no_indent)
 end
 
 return require("markdown.utils").add_key_bindings(M, {
 	{ "n", "<Plug>(markdown-nvim-join)", "<cmd>lua MarkdownNvim.join()<cr>", "J" },
 	{ "n", "<Plug>(markdown-nvim-join_indent)", "<cmd>lua MarkdownNvim.join(true)<cr>", "gJ" },
-	{ "v", "<Plug>(markdown-nvim-join-visual)", ":<c-u>lua MarkdownNvim.join_opfunc()<cr>", "J" },
-	{ "v", "<Plug>(markdown-nvim-join_indent-visual)", ":<c-u>lua MarkdownNvim.join_opfunc(true)<cr>", "gJ" },
+	{ "v", "<Plug>(markdown-nvim-join-visual)", ":<c-u>lua MarkdownNvim.join_visual()<cr>", "J" },
+	{ "v", "<Plug>(markdown-nvim-join_indent-visual)", ":<c-u>lua MarkdownNvim.join_visual(true)<cr>", "gJ" },
 })
