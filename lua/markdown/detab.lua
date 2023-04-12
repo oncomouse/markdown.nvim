@@ -16,7 +16,8 @@ local function match_vimregex(line, regex)
 	return match
 end
 
-function M.detab(normal_mode)
+function M.detab()
+	local normal_mode = vim.fn.mode() ~= "i"
 	local line = vim.api.nvim_get_current_line()
 	for _, r in pairs(detab_regexes) do
 		local match = match_vimregex(line, r)
@@ -55,15 +56,7 @@ end
 
 return require("markdown.utils").add_key_bindings(M, {
 	{ "i", "<Plug>(markdown-nvim-detab)", M.detab, "<C-d>", { expr = true } },
-	{
-		"n",
-		"<Plug>(markdown-nvim-detab)",
-		function()
-			return M.detab(true)
-		end,
-		"<<",
-		{ expr = true },
-	},
+	{ "n", "<Plug>(markdown-nvim-detab)", M.detab, "<<", { expr = true } },
 	{
 		"n",
 		"<Plug>(markdown-nvim-detab-opfunc)",
