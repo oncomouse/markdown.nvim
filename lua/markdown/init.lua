@@ -1,6 +1,6 @@
 local M = {}
 
-local modules = {
+local modules = vim.g.markdown_nvim_modules or {
 	"markdown.detab",
 	"markdown.join",
 	"markdown.movements",
@@ -60,8 +60,10 @@ function M.setup()
 		end,
 	})
 
+	local do_not_load = vim.b.markdown_nvim_do_not_set_default_maps == 1 or vim.b.markdown_nvim_do_not_set_default_maps == true or vim.g.markdown_nvim_do_not_set_default_maps == 1 or vim.g.markdown_nvim_do_not_set_default_maps == true
+
 	-- If we are setting default mappings, set them here:
-	if vim.b.markdown_nvim_do_not_set_default_maps ~= 1 or vim.g.markdown_nvim_do_not_set_default_maps ~= 1 then
+	if not do_not_load then
 		for _, map in pairs(require("markdown").maps) do
 			require("markdown.utils").set_binding(map)
 		end

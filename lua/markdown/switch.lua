@@ -1,9 +1,10 @@
 local M = {}
 
 function switch_line(line)
+	local default_unordered = vim.b.markdown_nvim_unordered_default or vim.g.markdown_nvim_unordered_default or "*"
 	local spaces, contents = line:match("^(%s*)%d+[.] (.*)")
 	if spaces ~= nil then
-		return string.format("%s* %s", spaces, contents)
+		return string.format("%s%s %s", spaces, default_unordered, contents)
 	end
 	spaces, contents = line:match("^(%s*)[*-] (.*)")
 	if spaces ~= nil then
@@ -45,7 +46,9 @@ end
 function M.switch_opfunc(mode)
 	local start, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and "<" or "["))
 	local stop, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and ">" or "]"))
-	if start == 0 or stop == 0 then return end
+	if start == 0 or stop == 0 then
+		return
+	end
 	start = start - 1
 	stop = stop - 1
 	switch_lines(start, stop)
@@ -54,6 +57,11 @@ end
 return require("markdown.utils").add_key_bindings(M, {
 	{ "n", "<Plug>(markdown-nvim-switch)", "<cmd>lua MarkdownNvim.switch()<CR>", "<leader>mss" },
 	{ "v", "<Plug>(markdown-nvim-switch-visual)", ":<c-u>lua MarkdownNvim.switch_opfunc('visual')<CR>", "<leader>ms" },
-	{ "n", "<Plug>(markdown-nvim-switch_opfunc)", "<cmd>set opfunc=v:lua.MarkdownNvim.switch_opfunc<CR>g@", "<leader>ms" },
+	{
+		"n",
+		"<Plug>(markdown-nvim-switch_opfunc)",
+		"<cmd>set opfunc=v:lua.MarkdownNvim.switch_opfunc<CR>g@",
+		"<leader>ms",
+	},
 	{ "i", "<Plug>(markdown-nvim-switch)", "<cmd>lua MarkdownNvim.switch_line()<CR>", "<C-Z>" },
 })

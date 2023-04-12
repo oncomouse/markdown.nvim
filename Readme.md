@@ -17,6 +17,18 @@ This plugin combines a few features from other plugins while removing features I
 5. Renumber:
     * In normal mode, `<leader>mn` will renumber an ordered list
 
+## Configuring
+
+Running `require("markdown").setup()` will create the necessary mappings in any buffer. By default, this loads for all markdown files, but you could use autocommands or other ftplugins to load the mappings elsewhere.
+
+Several variables control the plugin's behavior:
+
+* `vim.g.markdown_nvim_modules` -- Define the modules to load (default: `{ "markdown.detab", "markdown.join", "markdown.movements", "markdown.newline", "markdown.renumber", "markdown.switch", }`)
+* `vim.g.markdown_nvim_unordered_default` -- Define the unordered token to use when switching ordered lists to unordered (default: `*`)
+    * `vim.b.markdown_nvim_unordered_default` -- Set for individual buffers
+* `vim.g.markdown_nvim_do_not_set_default_maps` -- Set to `true` or `1` to prevent the creation of default mappings.
+    * `vim.b.markdown_nvim_do_not_set_default_maps` -- Disable default maps for an individual buffer
+
 ## Autopairs Support for markdown.nvim
 
 This plugin does not insert list or blockquote characters on newline. Lists can be managed using [autolist.nvim](https://github.com/gaoDean/autolist.nvim); block quotes might be extending using any of the available autopairs plugins.
