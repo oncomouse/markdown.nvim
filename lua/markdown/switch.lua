@@ -34,7 +34,6 @@ function switch_lines(start, stop)
 		table.insert(output, switch_line(line))
 	end
 	vim.api.nvim_buf_set_lines(0, start, stop + 1, false, output)
-	require("markdown.renumber").renumber_ordered_list()
 end
 
 function M.switch()
