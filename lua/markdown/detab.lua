@@ -70,7 +70,7 @@ return require("markdown.utils").add_key_bindings(M, {
 	{
 		"n",
 		"<Plug>(markdown-nvim-detab-opfunc)",
-		"<cmd>set operatorfunc=v:lua.MarkdownNvim.detab_opfunc<CR>g@",
+		"<cmd>set operatorfunc=v:lua.require'markdown.detab'.detab_opfunc<CR>g@",
 		"<",
 	},
 	{
