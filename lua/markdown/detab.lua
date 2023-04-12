@@ -16,7 +16,8 @@ local function match_vimregex(line, regex)
 	return match
 end
 
-local function detab_line(line, normal_mode)
+function M.detab(normal_mode)
+	local line = vim.api.nvim_get_current_line()
 	for _, r in pairs(detab_regexes) do
 		local match = match_vimregex(line, r)
 		if match then
@@ -45,18 +46,11 @@ local function detab_line(line, normal_mode)
 	return operation
 end
 
-function M.detab(normal_mode)
-	local line = vim.api.nvim_get_current_line()
-	return detab_line(line, normal_mode)
-end
-
 M.detab_opfunc = function(mode)
 	local start, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and "<" or "["))
 	local stop, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and ">" or "]"))
 	while start <= stop do
-		local line = vim.api.nvim_buf_get_lines(0, start, start + 1, false)[1]
-		local command = detab_line(line, true)
-		vim.cmd(string.format([[%d,%dnormal! %s]], start, start, command))
+		vim.cmd(string.format([[execute "%dnormal! \<Plug>(markdown-nvim-detab)"]], start))
 		start = start + 1
 	end
 end
