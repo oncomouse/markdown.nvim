@@ -49,10 +49,7 @@ end
 M.detab_opfunc = function(mode)
 	local start, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and "<" or "["))
 	local stop, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and ">" or "]"))
-	while start <= stop do
-		vim.cmd(string.format([[execute "%dnormal! \<Plug>(markdown-nvim-detab)"]], start))
-		start = start + 1
-	end
+	vim.cmd(string.format([[execute "%d,%dnormal! \<Plug>(markdown-nvim-detab)"]], start, stop))
 end
 
 
