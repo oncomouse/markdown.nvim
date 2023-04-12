@@ -56,7 +56,7 @@ function M.setup()
 		buffer = 0,
 		group = augroup,
 		callback = function()
-			require("markdown.renumber").renumber_ordered_list()
+			M.renumber_ordered_list()
 		end,
 	})
 
@@ -64,7 +64,7 @@ function M.setup()
 
 	-- If we are setting default mappings, set them here:
 	if not do_not_load then
-		for _, map in pairs(require("markdown").maps) do
+		for _, map in pairs(M.maps) do
 			require("markdown.utils").set_binding(map)
 		end
 	end
