@@ -71,7 +71,7 @@ function M.join_opfunc(mode)
 	-- Handle J vs gJ:
 	local function do_opfunc(m)
 		vim.b.dotfiles_markdown_join_no_indent = m
-		vim.opt.operatorfunc = "v:lua.require'dotfiles.markdown'.join_opfunc" -- Can't have parentheses
+		vim.opt.operatorfunc = "v:lua.require'markdown.join'.join_opfunc" -- Can't have parentheses
 		return "g@"
 	end
 	if type(mode) == "nil" then
