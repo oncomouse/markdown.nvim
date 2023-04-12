@@ -9,15 +9,15 @@ local modules = {
 	"markdown.switch",
 }
 
+for _, module in ipairs(modules) do
+	M = vim.tbl_extend("force", M, require(module))
+end
+
 M.maps = {}
 
 function M.setup()
 	-- Create <Plug> bindings for each module
 	if #M.maps == 0 then
-		for _, module in ipairs(modules) do
-			M = vim.tbl_extend("force", M, require(module))
-		end
-
 		for _, module in ipairs(modules) do
 			for _, map in ipairs(require(module).maps) do
 				table.insert(M.maps, map)
@@ -40,7 +40,9 @@ function M.setup()
 		group = augroup,
 		callback = function()
 			local row = require("markdown.utils").get_current_row()
-			if vim.b.markdown_nvim_current_row == row then return end
+			if vim.b.markdown_nvim_current_row == row then
+				return
+			end
 			vim.b.markdown_nvim_current_row = row
 			local start, stop = require("markdown.utils").detect_block(row)
 			vim.b.markdown_nvim_current_block = {
@@ -59,8 +61,8 @@ function M.setup()
 	})
 
 	-- If we are setting default mappings, set them here:
-	if vim.g.markdown_nvim_do_not_set_default_maps ~= 1 then
-		for _,map in pairs(require("markdown").maps) do
+	if vim.b.markdown_nvim_do_not_set_default_maps ~= 1 or vim.g.markdown_nvim_do_not_set_default_maps ~= 1 then
+		for _, map in pairs(require("markdown").maps) do
 			require("markdown.utils").set_binding(map)
 		end
 	end
