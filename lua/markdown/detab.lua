@@ -32,26 +32,26 @@ function M.detab(normal_mode)
 	local row = require("markdown.utils").get_current_row()
 	local spaces = line:match("^(%s*)%d+[.] ")
 	if row > 1 and spaces then
-		local up_spaces, number = string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^(%s*)(%d+)[.] ")
+		local up_spaces, number =
+			string.match(vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1], "^(%s*)(%d+)[.] ")
 		local indent_step = require("markdown.utils").indent_step()
 		if number and #up_spaces == #spaces - indent_step then
 			return string.format("%s<Esc>_ce%d.<Esc>%s", operation, tonumber(number) + 1, normal_mode and "" or "A")
 		end
-		return string.format(
-			"%s<Esc>_ce1.<Esc>%s",
-			operation,
-			normal_mode and "<Esc>" or "A"
-		)
+		return string.format("%s<Esc>_ce1.<Esc>%s", operation, normal_mode and "<Esc>" or "A")
 	end
 	return operation
 end
 
 M.detab_opfunc = function(mode)
-	local start, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and "<" or "["))
-	local stop, _ = unpack(vim.api.nvim_buf_get_mark(0, mode == "visual" and ">" or "]"))
-	vim.cmd(string.format([[execute "%d,%dnormal! \<Plug>(markdown-nvim-detab)"]], start, stop))
+	vim.cmd(
+		string.format(
+			[[execute "%s,%snormal! \<Plug>(markdown-nvim-detab)"]],
+			mode == "visual" and "'<" or "'[",
+			mode == "visual" and "'>" or "']"
+		)
+	)
 end
-
 
 return require("markdown.utils").add_key_bindings(M, {
 	{ "i", "<Plug>(markdown-nvim-detab)", M.detab, "<C-d>", { expr = true } },
