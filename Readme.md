@@ -74,14 +74,14 @@ vim.fn["lexima#add_rule"]({
     char = "<CR>",
     at = [[^\s*[*-] \%#$]],
     filetype = "markdown",
-    input = "<Home><C-O>D<CR>",
+    input = [[<Home><C-O>"_D<CR>]],
 })
 vim.fn["lexima#add_rule"]({
     char = "<BS>",
     at = [[^\(\s*\)[*-] \%#$]],
     filetype = "markdown",
     with_submatch = true,
-    input = [[<Home><C-O>D\1]],
+    input = [[<Home><C-O>"_D\1]],
 })
 -- Ordered Lists (including automatic increment):
 vim.fn["lexima#add_rule"]({
@@ -96,14 +96,14 @@ vim.fn["lexima#add_rule"]({
     char = "<CR>",
     at = [[^\s*[0-9]\+\. \%#$]],
     filetype = "markdown",
-    input = "<Home><C-O>D<CR>",
+    input = [[<Home><C-O>"_D<CR>]],
 })
 vim.fn["lexima#add_rule"]({
     char = "<BS>",
     at = [[^\(\s*\)[0-9]\+\. \%#$]],
     filetype = "markdown",
     with_submatch = true,
-    input = [[<Home><C-O>D\1]],
+    input = [[<Home><C-O>"_D\1]],
 })
 ```
 
