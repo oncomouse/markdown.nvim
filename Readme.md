@@ -5,16 +5,16 @@ This plugin combines a few features from other plugins while removing features I
 1. The ability to do syntax-aware join (`J` and `gJ`) and newline (`o` and `O`).
     * Newline supports extending block quotes and lists (both ordered and unordered).
     * Join will remove syntax when joining lines.
-2. Smart detab:
-    * In insert mode, `<C-d>` with no whitespace will delete list marker
-    * In normal and visual mode, `<` and `<<` with no whitespace will delete list marker
-3. All of the motion commands from [vim-markdown](https://github.com/preservim/vim-markdown).
-4. Switch list type:
+2. Smart detab/tab:
+    * In insert mode, `<C-t>` and `<C-d>` will auto-increment ordered lists; `<C-d>` with no whitespace will delete list marker
+    * In normal mode, `>`, `>>`, `<`, and `<<` will auto-increment ordered lists; `<` and `<<` with no whitespace will delete list marker
+3. Smart delete: using `dd` or `d<motion>` will automatically trigger renumbering of ordered lists
+4. All of the motion commands from [vim-markdown](https://github.com/preservim/vim-markdown).
+5. Switch list type:
     * In insert mode, `<C-Z>` will switch list type for the current line
     * In normal mode, `<leader>mss` will switch list type for the current list
         * `<leader>ms` will use `operatorfunc` to switch list type for a given motion
-    * In visual mode, `<leader>ms` will switch highlighted lines
-5. Renumber:
+6. Renumber:
     * In normal mode, `<leader>mn` will renumber an ordered list
 
 ## Configuring
