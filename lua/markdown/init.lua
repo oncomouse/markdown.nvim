@@ -6,6 +6,7 @@ local modules = vim.g.markdown_nvim_modules or {
 	"markdown.join",
 	"markdown.movements",
 	"markdown.newline",
+	"markdown.paste",
 	"markdown.renumber",
 	"markdown.tab",
 	"markdown.switch",

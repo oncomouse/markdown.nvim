@@ -118,4 +118,5 @@ vim.fn["lexima#add_rule"]({
 7. [X] Tab/detab with operator-pending support (`>`) for renumbering
 8. [X] Delete module operator-pending support
 9. [X] Visual delete
-10. [ ] Paste (`p`/`P`) support
+10. [X] Paste (`p`/`P`) support
+11. [ ] Visual paste (`p`/`P`) support
