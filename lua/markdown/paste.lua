@@ -1,20 +1,25 @@
 local M = {}
 function M.visual_paste()
 	if vim.fn.visualmode() == "V" then
-		if vim.fn.getregtype() == #"V" then
+		if vim.fn.getregtype() == "V" then
 			vim.cmd([[exe "normal! gv\"_c\<space>\<bs>\<esc>" . v:count1 . '"' . v:register . ']pk"_dd']])
 		else
 			vim.cmd([[exe "normal! gv\"_c\<space>\<bs>\<esc>" . v:count1 . '"' . v:register . ']p']])
 		end
 	else
 		-- workaround strange Vim behavior (""p is no-op in visual mode)
-		local reg = vim.v.register == '"' and "" or '"' .. vim.v.register
+		local reg = vim.v.register == '"' and "" or [[\"]] .. vim.v.register
 
-		vim.cmd([[exe "normal! gv" . v:count1]] .. reg .. "p")
+		vim.cmd(string.format([[exe "normal! gv%d%sp"]], vim.v.count1, reg))
 	end
 end
 return require("markdown.utils").add_key_bindings(M, {
 	{ "n", "<Plug>(markdown-nvim-paste)", [[<cmd>execute "normal! p\<Plug>(markdown-nvim-renumber)"<CR>]], "p" },
 	{ "n", "<Plug>(markdown-nvim-paste-above)", [[<cmd>execute "normal! P\<Plug>(markdown-nvim-renumber)"<CR>]], "P" },
-	{ "v", "<Plug>(markdown-nvim-paste)", [[<cmd>MarkdownNvim.visual_paste()<CR><cmd>execute "\<Plug>(markdown-nvim-renumber)"<CR>]], { "p", "P" } },
+	{
+		"x",
+		"<Plug>(markdown-nvim-paste)",
+		[[:<C-u>lua MarkdownNvim.visual_paste()<CR><cmd>execute "normal! \<Plug>(markdown-nvim-renumber)"<CR>]],
+		{ "p", "P" }, { silent = true },
+	},
 })
