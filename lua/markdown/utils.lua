@@ -13,7 +13,10 @@ function M.set_plug_binding(binding)
 end
 
 function M.set_binding(binding)
-	vim.keymap.set(binding[1], binding[4], binding[2], { buffer = true })
+	local maps = type(binding[4]) == "string" and { binding[4] } or binding[4]
+	for _, map in ipairs(maps) do
+		vim.keymap.set(binding[1], map, binding[2], { buffer = true })
+	end
 end
 
 function M.indent_step(bufnr)
