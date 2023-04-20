@@ -55,7 +55,13 @@ end
 
 return require("markdown.utils").add_key_bindings(M, {
 	{ "n", "<Plug>(markdown-nvim-switch)", "<cmd>lua MarkdownNvim.switch()<CR>", "<leader>mss" },
-	{ "v", "<Plug>(markdown-nvim-switch-visual)", ":<c-u>lua MarkdownNvim.switch_opfunc('visual')<CR>", "<leader>ms" },
+	{
+		"v",
+		"<Plug>(markdown-nvim-switch-visual)",
+		":<c-u>lua MarkdownNvim.switch_opfunc('visual')<CR>",
+		"<leader>ms",
+		{ silent = true },
+	},
 	{
 		"n",
 		"<Plug>(markdown-nvim-switch_opfunc)",

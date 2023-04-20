@@ -67,8 +67,18 @@ function M.delete_line(row)
 end
 
 return require("markdown.utils").add_key_bindings(M, {
-	{ "n", "<Plug>(markdown-nvim-delete-line)", [[<cmd>lua MarkdownNvim.delete_line()<CR><cmd>exec "normal! \<Plug>(markdown-nvim-renumber)"<CR>]], "dd" },
+	{
+		"n",
+		"<Plug>(markdown-nvim-delete-line)",
+		[[<cmd>lua MarkdownNvim.delete_line()<CR><cmd>exec "normal! \<Plug>(markdown-nvim-renumber)"<CR>]],
+		"dd",
+	},
 	{ "n", "<Plug>(markdown-nvim-delete-opfunc)", "<cmd>lua MarkdownNvim.delete_opfunc()<CR>g@", "d" },
-	{ "v", "<Plug>(markdown-nvim-delete-visual)", ":<C-u>lua MarkdownNvim.delete_opfunc('visual')<CR>", "d" },
+	{
+		"v",
+		"<Plug>(markdown-nvim-delete-visual)",
+		":<C-u>lua MarkdownNvim.delete_opfunc('visual')<CR>",
+		"d",
+		{ silent = true },
+	},
 })
-

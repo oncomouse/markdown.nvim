@@ -79,5 +79,6 @@ return require("markdown.utils").add_key_bindings(M, {
 		"<Plug>(markdown-nvim-detab-opfunc)",
 		":<C-u>lua MarkdownNvim.detab_opfunc('visual')<CR>",
 		"<",
+		{ silent = true },
 	},
 })
