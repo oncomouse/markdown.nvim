@@ -6,6 +6,7 @@ function M.delete_opfunc(mode)
 	if mode == nil then
 		register = vim.v.register
 		vim.opt.operatorfunc = "v:lua.MarkdownNvim.delete_opfunc"
+		return
 	end
 	if mode == "line" then
 		vim.cmd([['[,']d ]] .. register)
