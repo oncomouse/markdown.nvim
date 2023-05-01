@@ -2,9 +2,9 @@ local M = {}
 function M.visual_paste()
 	if vim.fn.visualmode() == "V" then
 		if vim.fn.getregtype() == "V" then
-			vim.cmd([[exe "normal! gv\"_c\<space>\<bs>\<esc>" . v:count1 . '"' . v:register . ']pk"_dd']])
+			vim.cmd([[exe "normal! gv\"_c\<space>\<bs>\<esc>" . vim.v.count1 . '"' . vim.v.register . ']pk"_dd']])
 		else
-			vim.cmd([[exe "normal! gv\"_c\<space>\<bs>\<esc>" . v:count1 . '"' . v:register . ']p']])
+			vim.cmd([[exe "normal! gv\"_c\<space>\<bs>\<esc>" . vim.v.count1 . '"' . vim.v.register . ']p']])
 		end
 	else
 		-- workaround strange Vim behavior (""p is no-op in visual mode)
