@@ -33,13 +33,13 @@ return require("markdown.utils").add_key_bindings(M, {
 	{
 		"n",
 		"<Plug>(markdown-nvim-tab-opfunc)",
-		"<cmd>set operatorfunc=v:lua.MarkdownNvim.tab_opfunc<CR>g@",
+		"<cmd>set operatorfunc=v:lua.require'markdown.tab'.tab_opfunc<CR>g@",
 		">",
 	},
 	{
 		"v",
 		"<Plug>(markdown-nvim-tab-opfunc)",
-		":<C-u>lua MarkdownNvim.tab_opfunc('visual')<CR>",
+		":<C-u>lua require'markdown.tab'.tab_opfunc('visual')<CR>",
 		">",
 		{ silent = true },
 	},

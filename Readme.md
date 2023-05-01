@@ -24,6 +24,7 @@ Running `require("markdown").setup()` will create the necessary mappings in any 
 Several variables control the plugin's behavior:
 
 * `vim.g.markdown_nvim_modules` -- Define the modules to load (default: `{ "markdown.detab", "markdown.join", "markdown.movements", "markdown.newline", "markdown.renumber", "markdown.switch", }`)
+    * `vim.b.markdown_nvim_modules` -- Load modules for a particular buffer
 * `vim.g.markdown_nvim_unordered_default` -- Define the unordered token to use when switching ordered lists to unordered (default: `*`)
     * `vim.b.markdown_nvim_unordered_default` -- Set for individual buffers
 * `vim.g.markdown_nvim_do_not_set_default_maps` -- Set to `true` or `1` to prevent the creation of default mappings.

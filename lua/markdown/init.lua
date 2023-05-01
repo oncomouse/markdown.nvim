@@ -1,24 +1,24 @@
 local M = {}
 
-local modules = vim.g.markdown_nvim_modules or {
-	"markdown.delete",
-	"markdown.detab",
-	"markdown.join",
-	"markdown.movements",
-	"markdown.newline",
-	"markdown.paste",
-	"markdown.renumber",
-	"markdown.tab",
-	"markdown.switch",
-}
-
-for _, module in ipairs(modules) do
-	M = vim.tbl_extend("force", M, require(module))
-end
-
+-- for _, module in ipairs(modules) do
+-- 	M = vim.tbl_extend("force", M, require(module))
+-- end
+--
 M.maps = {}
 
 function M.setup()
+	local modules = vim.b.markdown_nvim_modules or vim.g.markdown_nvim_modules or {
+		"markdown.delete",
+		"markdown.detab",
+		"markdown.join",
+		"markdown.movements",
+		"markdown.newline",
+		"markdown.paste",
+		"markdown.renumber",
+		"markdown.tab",
+		"markdown.switch",
+	}
+
 	-- Create <Plug> bindings for each module
 	if #M.maps == 0 then
 		for _, module in ipairs(modules) do
@@ -45,8 +45,5 @@ function M.setup()
 
 	vim.b.markdown_nvim_loaded = true
 end
-
---selene: allow(unused_variable, unscoped_variables)
-MarkdownNvim = M
 
 return M

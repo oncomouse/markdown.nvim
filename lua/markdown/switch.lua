@@ -54,19 +54,19 @@ function M.switch_opfunc(mode)
 end
 
 return require("markdown.utils").add_key_bindings(M, {
-	{ "n", "<Plug>(markdown-nvim-switch)", "<cmd>lua MarkdownNvim.switch()<CR>", "<leader>mss" },
+	{ "n", "<Plug>(markdown-nvim-switch)", "<cmd>lua require'markdown.switch'.switch()<CR>", "<leader>mss" },
 	{
 		"v",
 		"<Plug>(markdown-nvim-switch-visual)",
-		":<c-u>lua MarkdownNvim.switch_opfunc('visual')<CR>",
+		":<c-u>lua require'markdown.switch'.switch_opfunc('visual')<CR>",
 		"<leader>ms",
 		{ silent = true },
 	},
 	{
 		"n",
 		"<Plug>(markdown-nvim-switch_opfunc)",
-		"<cmd>set opfunc=v:lua.MarkdownNvim.switch_opfunc<CR>g@",
+		"<cmd>set opfunc=v:lua.require'markdown.switch'.switch_opfunc<CR>g@",
 		"<leader>ms",
 	},
-	{ "i", "<Plug>(markdown-nvim-switch)", "<cmd>lua MarkdownNvim.switch_line()<CR>", "<C-Z>" },
+	{ "i", "<Plug>(markdown-nvim-switch)", "<cmd>lua require'markdown.switch'.switch_line()<CR>", "<C-Z>" },
 })

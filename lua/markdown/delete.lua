@@ -5,7 +5,7 @@ local register
 function M.delete_opfunc(mode)
 	if mode == nil then
 		register = vim.v.register
-		vim.opt.operatorfunc = "v:lua.MarkdownNvim.delete_opfunc"
+		vim.opt.operatorfunc = "v:lua.require'markdown.delete'.delete_opfunc"
 		return
 	end
 	if mode == "line" then
@@ -71,14 +71,14 @@ return require("markdown.utils").add_key_bindings(M, {
 	{
 		"n",
 		"<Plug>(markdown-nvim-delete-line)",
-		[[<cmd>lua MarkdownNvim.delete_line()<CR><cmd>exec "normal! \<Plug>(markdown-nvim-renumber)"<CR>]],
+		[[<cmd>lua require'markdown.delete'.delete_line()<CR><cmd>exec "normal! \<Plug>(markdown-nvim-renumber)"<CR>]],
 		"dd",
 	},
-	{ "n", "<Plug>(markdown-nvim-delete-opfunc)", "<cmd>lua MarkdownNvim.delete_opfunc()<CR>g@", "d" },
+	{ "n", "<Plug>(markdown-nvim-delete-opfunc)", "<cmd>lua require'markdown.delete'.delete_opfunc()<CR>g@", "d" },
 	{
 		"v",
 		"<Plug>(markdown-nvim-delete-visual)",
-		":<C-u>lua MarkdownNvim.delete_opfunc('visual')<CR>",
+		":<C-u>lua require'markdown.delete'.delete_opfunc('visual')<CR>",
 		"d",
 		{ silent = true },
 	},

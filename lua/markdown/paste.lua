@@ -19,7 +19,7 @@ return require("markdown.utils").add_key_bindings(M, {
 	{
 		"x",
 		"<Plug>(markdown-nvim-paste)",
-		[[:<C-u>lua MarkdownNvim.visual_paste()<CR><cmd>execute "normal! \<Plug>(markdown-nvim-renumber)"<CR>]],
+		[[:<C-u>lua require'markdown.paste'.visual_paste()<CR><cmd>execute "normal! \<Plug>(markdown-nvim-renumber)"<CR>]],
 		{ "p", "P" },
 		{ silent = true },
 	},

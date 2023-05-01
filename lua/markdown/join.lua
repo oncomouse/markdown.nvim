@@ -74,13 +74,13 @@ function M.join_visual(no_indent)
 end
 
 return require("markdown.utils").add_key_bindings(M, {
-	{ "n", "<Plug>(markdown-nvim-join)", "<cmd>lua MarkdownNvim.join()<cr>", "J" },
-	{ "n", "<Plug>(markdown-nvim-join_indent)", "<cmd>lua MarkdownNvim.join(true)<cr>", "gJ" },
-	{ "v", "<Plug>(markdown-nvim-join-visual)", ":<c-u>lua MarkdownNvim.join_visual()<cr>", "J", { silent = true } },
+	{ "n", "<Plug>(markdown-nvim-join)", "<cmd>lua require'markdown.join'.join()<cr>", "J" },
+	{ "n", "<Plug>(markdown-nvim-join_indent)", "<cmd>lua require'markdown.join'.join(true)<cr>", "gJ" },
+	{ "v", "<Plug>(markdown-nvim-join-visual)", ":<c-u>lua require'markdown.join'.join_visual()<cr>", "J", { silent = true } },
 	{
 		"v",
 		"<Plug>(markdown-nvim-join_indent-visual)",
-		":<c-u>lua MarkdownNvim.join_visual(true)<cr>",
+		":<c-u>lua require'markdown.join'.join_visual(true)<cr>",
 		"gJ",
 		{ silent = true },
 	},
