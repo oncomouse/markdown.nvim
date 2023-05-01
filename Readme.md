@@ -121,3 +121,4 @@ vim.fn["lexima#add_rule"]({
 9. [X] Visual delete
 10. [X] Paste (`p`/`P`) support
 11. [X] Visual paste (`p`/`P`) support
+12. [ ] `o`/`O` detect when line below/above is a list but current line isn't
