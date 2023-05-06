@@ -107,7 +107,6 @@ vim.fn["lexima#add_rule"]({
     input = [[<Home><C-O>"_D\1]],
 })
 ```
-
 ## Todo
 
 1. [X] Binding to switch list type (from ordered to unordered).
@@ -122,4 +121,4 @@ vim.fn["lexima#add_rule"]({
 10. [X] Paste (`p`/`P`) support
 11. [X] Visual paste (`p`/`P`) support
 12. [ ] `o`/`O` detect when line below/above is a list but current line isn't
-13. [ ] `vim.v.count1` support for opfunc-based delete
+13. [X] `vim.v.count1` support for opfunc-based delete

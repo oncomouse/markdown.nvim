@@ -56,6 +56,10 @@ function M.detab()
 end
 
 M.detab_opfunc = function(mode)
+	if mode == nil then
+		vim.o.operatorfunc = "v:lua.require'markdown.detab'.detab_opfunc"
+		return "g@"
+	end
 	vim.cmd(
 		string.format(
 			[[execute "%s,%snormal! \<Plug>(markdown-nvim-detab)"]],
@@ -63,6 +67,7 @@ M.detab_opfunc = function(mode)
 			mode == "visual" and "'>" or "']"
 		)
 	)
+	return ""
 end
 
 return require("markdown.utils").add_key_bindings(M, {
@@ -71,8 +76,9 @@ return require("markdown.utils").add_key_bindings(M, {
 	{
 		"n",
 		"<Plug>(markdown-nvim-detab-opfunc)",
-		"<cmd>set operatorfunc=v:lua.require'markdown.detab'.detab_opfunc<CR>g@",
+		M.detab_opfunc,
 		"<",
+		{ expr = true },
 	},
 	{
 		"v",

@@ -6,11 +6,11 @@ function M.delete_opfunc(mode)
 	if mode == nil then
 		register = vim.v.register
 		vim.opt.operatorfunc = "v:lua.require'markdown.delete'.delete_opfunc"
-		return
+		return "g@"
 	end
 	if mode == "line" then
 		vim.cmd([['[,']d ]] .. register)
-		return
+		return ""
 	end
 	local row_left, col_left, row_right, col_right
 	if mode == "char" then
@@ -29,7 +29,7 @@ function M.delete_opfunc(mode)
 		vim.fn.setreg(register, table.concat(deleted, "\n"), "l")
 		vim.api.nvim_buf_set_lines(0, row_left, row_right + 1, false, {})
 		vim.cmd([[exec "normal! \<Plug>(markdown-nvim-renumber)"]])
-		return
+		return ""
 	end
 	local output = {}
 	if row_left == row_right then
@@ -58,6 +58,7 @@ function M.delete_opfunc(mode)
 	end
 	vim.api.nvim_buf_set_lines(0, row_left, row_right + 1, false, output)
 	vim.cmd([[exec "normal! \<Plug>(markdown-nvim-renumber)"]])
+	return ""
 end
 
 function M.delete_line(row)
@@ -74,7 +75,7 @@ return require("markdown.utils").add_key_bindings(M, {
 		[[<cmd>lua require'markdown.delete'.delete_line()<CR><cmd>exec "normal! \<Plug>(markdown-nvim-renumber)"<CR>]],
 		"dd",
 	},
-	{ "n", "<Plug>(markdown-nvim-delete-opfunc)", "<cmd>lua require'markdown.delete'.delete_opfunc()<CR>g@", "d" },
+	{ "n", "<Plug>(markdown-nvim-delete-opfunc)", M.delete_opfunc, "d", { expr = true } },
 	{
 		"v",
 		"<Plug>(markdown-nvim-delete-visual)",
