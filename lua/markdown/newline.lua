@@ -18,14 +18,14 @@ function M.insert_newline(above)
 	end
 	-- Lists, ordered and unordered
 	local space, number = line:match("^(%s*)(%d+)[.] ")
-	if not space then
+	if not space and other_line then
 		space, number = other_line:match("^(%s*)(%d+)[.] ")
 	end
 	if space then
 		return string.format("%s%d<Home><Esc><C-A>A. <Esc>A", action, number)
 	end
 	space, number = line:match("^(%s*)([*-]) ")
-	if not space then
+	if not space and other_line then
 		space, number = other_line:match("^(%s*)([*-]) ")
 	end
 	if space then
