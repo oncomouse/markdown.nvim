@@ -10,6 +10,7 @@ function M.setup()
 	local modules = vim.b.markdown_nvim_modules or vim.g.markdown_nvim_modules or {
 		"markdown.delete",
 		"markdown.detab",
+		"markdown.footnotes",
 		"markdown.join",
 		"markdown.movements",
 		"markdown.newline",

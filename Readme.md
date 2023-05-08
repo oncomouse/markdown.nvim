@@ -122,3 +122,5 @@ vim.fn["lexima#add_rule"]({
 11. [X] Visual paste (`p`/`P`) support
 12. [X] `o`/`O` detect when line below/above is a list but current line isn't
 13. [X] `vim.v.count1` support for opfunc-based delete
+14. [X] Follow footnotes (references / definitions)
+15. [ ] Follow footnotes outside of current file
