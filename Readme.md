@@ -124,4 +124,4 @@ vim.fn["lexima#add_rule"]({
 13. [X] `vim.v.count1` support for opfunc-based delete
 14. [X] Follow footnotes (references / definitions)
 15. [X] Follow footnotes outside of current file
-16. [ ] Follow footnote definitions outside of current file
+16. [X] Follow footnote definitions outside of current file

@@ -8,6 +8,22 @@ function M.follow_note()
 		local l = vim.fn.searchpos(string.format([==[\[\^%s\][^:]]==], in_definition), "bnW")
 		if l[1] > 0 then
 			vim.api.nvim_win_set_cursor(0, { l[1], l[2] + 1 })
+		else
+			vim.cmd(
+				string.format(
+					"noautocmd silent! grep! '%s'",
+					string.format([==[(\[\^%s\][^:]\|\[\^%s\]$)]==], in_definition, in_definition)
+				)
+			)
+			local qf_len = #vim.fn.getqflist()
+			if qf_len > 0 then
+				vim.cmd("cfirst")
+				if qf_len > 1 then
+					vim.cmd("copen | wincmd w")
+				end
+			else -- Make sure quickfix is closed
+				vim.cmd("cclose")
+			end
 		end
 	else
 		local in_ref = vim.fn.search([==[\[\^\([^]]*\%#[^]]*\)\]]==], "cn")
@@ -18,9 +34,13 @@ function M.follow_note()
 				vim.api.nvim_win_set_cursor(0, { l[1], l[2] })
 			else
 				-- Run a project grep for the name
-				vim.cmd(string.format("silent! grep! '%s'", string.format([==[^\[\^%s\]: ]==], name)))
-				if #vim.fn.getqflist() > 0 then
-					vim.cmd("copen")
+				vim.cmd(string.format("noautocmd silent! grep! '%s'", string.format([==[^\[\^%s\]: ]==], name)))
+				local qf_len = #vim.fn.getqflist()
+				if qf_len > 0 then
+					vim.cmd("cfirst")
+					if qf_len > 1 then
+						vim.cmd("copen | wincmd w")
+					end
 				else -- Make sure quickfix is closed
 					vim.cmd("cclose")
 				end
