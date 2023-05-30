@@ -1,6 +1,6 @@
 local M = {}
 
-function switch_line(line)
+local function switch_line(line)
 	local default_unordered = vim.b.markdown_nvim_unordered_default or vim.g.markdown_nvim_unordered_default or "*"
 	local spaces, contents = line:match("^(%s*)%d+[.] (.*)")
 	if spaces ~= nil then
@@ -24,10 +24,11 @@ function M.switch_line()
 		col = col - 1
 	end
 	vim.api.nvim_buf_set_lines(0, start, stop + 1, false, { switch_line(line) })
+	require("markdown.renumber").renumber_ordered_list()
 	vim.api.nvim_win_set_cursor(0, { start + 1, col })
 end
 
-function switch_lines(start, stop)
+local function switch_lines(start, stop)
 	local lines = vim.api.nvim_buf_get_lines(0, start, stop + 1, false)
 	local output = {}
 	for _, line in ipairs(lines) do
