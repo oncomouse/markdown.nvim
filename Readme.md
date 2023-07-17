@@ -125,3 +125,4 @@ vim.fn["lexima#add_rule"]({
 14. [X] Follow footnotes (references / definitions)
 15. [X] Follow footnotes outside of current file
 16. [X] Follow footnote definitions outside of current file
+17. [ ] Update all of this to work with orgmode
