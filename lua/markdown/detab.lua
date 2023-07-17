@@ -1,11 +1,5 @@
 local M = {}
 
-local detab_regexes = {
-	[[^[*-] \(\[.\]\)\{0,1\}]],
-	[[^\d\+\. \(\[.\]\)\{0,1\}]],
-	"^> ",
-}
-
 -- Works like string.match but for vim regexes:
 local function match_vimregex(line, regex)
 	local match = nil
@@ -17,6 +11,13 @@ local function match_vimregex(line, regex)
 end
 
 function M.detab()
+
+	local detab_regexes = {
+		[[^[*-] \(\[.\]\)\{0,1\}]],
+		[[^\d\+\. \(\[.\]\)\{0,1\}]],
+		"^> ",
+	}
+
 	local normal_mode = vim.fn.mode() ~= "i"
 	local line = vim.api.nvim_get_current_line()
 	for _, r in pairs(detab_regexes) do
