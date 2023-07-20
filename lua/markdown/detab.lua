@@ -11,9 +11,9 @@ local function match_vimregex(line, regex)
 end
 
 function M.detab()
-
+	local list_chars = vim.b.markdown_nvim_unordered_list_chars or "[*-]"
 	local detab_regexes = {
-		[[^[*-] \(\[.\]\)\{0,1\}]],
+		"^" .. list_chars .. [[ \(\[.\]\)\{0,1\}]],
 		[[^\d\+\. \(\[.\]\)\{0,1\}]],
 		"^> ",
 	}

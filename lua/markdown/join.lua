@@ -1,10 +1,5 @@
 local M = {}
 
-local join_patterns = {
-	"^> ", -- Block quotes
-	"^%s*([0-9]+%. )", -- Ordered lists
-	"^%s*([*-] )", -- Bulleted lists
-}
 
 local function find_match(line, pattern)
 	local start, stop, match = line:find(pattern)
@@ -23,6 +18,13 @@ local function do_substitution(line, results, no_indent)
 end
 
 local function find_active_pattern(line, sub, no_indent)
+	local list_chars = vim.b.markdown_nvim_unordered_list_chars or "[*-]"
+	local join_patterns = {
+		"^> ", -- Block quotes
+		"^%s*([0-9]+%. )", -- Ordered lists
+		"^%s*(" .. list_chars .. " )", -- Bulleted lists
+	}
+
 	local active_pattern = nil
 	for _, pattern in pairs(join_patterns) do
 		local found, results = find_match(line, pattern)

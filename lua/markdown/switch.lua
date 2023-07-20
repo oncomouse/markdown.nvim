@@ -1,12 +1,13 @@
 local M = {}
 
 local function switch_line(line)
+	local list_chars = vim.b.markdown_nvim_unordered_list_chars or "[*-]"
 	local default_unordered = vim.b.markdown_nvim_unordered_default or vim.g.markdown_nvim_unordered_default or "*"
 	local spaces, contents = line:match("^(%s*)%d+[.] (.*)")
 	if spaces ~= nil then
 		return string.format("%s%s %s", spaces, default_unordered, contents)
 	end
-	spaces, contents = line:match("^(%s*)[*-] (.*)")
+	spaces, contents = line:match("^(%s*)" .. list_chars .. " (.*)")
 	if spaces ~= nil then
 		return string.format("%s1. %s", spaces, contents)
 	end
@@ -14,11 +15,12 @@ local function switch_line(line)
 end
 
 function M.switch_line()
+	local list_chars = vim.b.markdown_nvim_unordered_list_chars or "[*-]"
 	local start = require("markdown.utils").get_current_row()
 	local col = vim.api.nvim_win_get_cursor(0)[2]
 	local stop = start
 	local line = vim.api.nvim_buf_get_lines(0, start, stop + 1, false)[1]
-	if line:match("^%s*[*-] ") then
+	if line:match("^%s*" .. list_chars .. " ") then
 		col = col + 1
 	elseif line:match("^%s*%d. ") then
 		col = col - 1

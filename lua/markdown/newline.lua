@@ -1,6 +1,7 @@
 local M = {}
 
 function M.insert_newline(above)
+	local list_chars = vim.b.markdown_nvim_unordered_list_chars or "[*-]"
 	local action = above and "O" or "o"
 	local line = vim.api.nvim_get_current_line()
 	local lnum = require("markdown.utils").get_current_row()
@@ -24,9 +25,9 @@ function M.insert_newline(above)
 	if space then
 		return string.format("%s%d<Home><Esc><C-A>A. <Esc>A", action, number)
 	end
-	space, number = line:match("^(%s*)([*-]) ")
+	space, number = line:match("^(%s*)(" .. list_chars .. ") ")
 	if not space and other_line then
-		space, number = other_line:match("^(%s*)([*-]) ")
+		space, number = other_line:match("^(%s*)(" .. list_chars .. ") ")
 	end
 	if space then
 		return string.format("%s%s ", action, number)
