@@ -174,7 +174,7 @@ function M.move_to_cur_header()
 	return lineNum
 end
 
-function vis(f)
+local function vis(f)
 	return function(...)
 		vim.cmd([[normal! gv]])
 		f(...)
