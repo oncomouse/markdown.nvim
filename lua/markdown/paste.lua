@@ -14,8 +14,8 @@ function M.visual_paste()
 	end
 end
 return require("markdown.utils").add_key_bindings(M, {
-	{ "n", "<Plug>(markdown-nvim-paste)", [[<cmd>execute "normal! p\<Plug>(markdown-nvim-renumber)"<CR>]], "p" },
-	{ "n", "<Plug>(markdown-nvim-paste-above)", [[<cmd>execute "normal! P\<Plug>(markdown-nvim-renumber)"<CR>]], "P" },
+	{ "n", "<Plug>(markdown-nvim-paste)", [[<cmd>execute "normal! " . v:count1 . "p\<Plug>(markdown-nvim-renumber)"<CR>]], "p" },
+	{ "n", "<Plug>(markdown-nvim-paste-above)", [[<cmd>execute "normal! " . v:count1 . "P\<Plug>(markdown-nvim-renumber)"<CR>]], "P" },
 	{
 		"x",
 		"<Plug>(markdown-nvim-paste)",
