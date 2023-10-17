@@ -20,8 +20,8 @@ function M.set_binding(binding)
 end
 
 function M.indent_step(bufnr)
-	return vim.api.nvim_buf_get_option(bufnr or 0, "expandtab")
-			and vim.api.nvim_buf_get_option(bufnr or 0, "softtabstop")
+	return vim.api.nvim_get_option_value("expandtab", { buf = bufnr or 0 })
+			and vim.api.nvim_get_option_value("softtabstop", { buf = bufnr or 0 })
 		or 1
 end
 
