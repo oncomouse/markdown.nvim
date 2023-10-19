@@ -10,7 +10,7 @@ end
 
 function M.set_plug_binding(binding)
 	local opts = vim.tbl_extend("force", {
-		desc = binding[3],
+		desc = type(binding[3]) == "string" and binding[3] or binding[2],
 	}, binding[5] or {})
 	vim.keymap.set(binding[1], binding[2], binding[3], opts)
 end
