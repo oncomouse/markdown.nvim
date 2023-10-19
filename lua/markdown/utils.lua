@@ -9,13 +9,16 @@ function M.add_key_bindings(module, keys)
 end
 
 function M.set_plug_binding(binding)
-	vim.keymap.set(binding[1], binding[2], binding[3], binding[5] or {})
+	local opts = vim.tbl_extend("force", {
+		desc = binding[3],
+	}, binding[5] or {})
+	vim.keymap.set(binding[1], binding[2], binding[3], opts)
 end
 
 function M.set_binding(binding)
 	local maps = type(binding[4]) == "string" and { binding[4] } or binding[4]
 	for _, map in ipairs(maps) do
-		vim.keymap.set(binding[1], map, binding[2], { buffer = true })
+		vim.keymap.set(binding[1], map, binding[2], { buffer = true, desc = binding[2] })
 	end
 end
 
